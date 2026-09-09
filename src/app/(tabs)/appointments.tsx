@@ -40,7 +40,11 @@ function toDateKey(date: Date): string {
 }
 
 function formatDateChipLabel(date: Date): string {
-  return new Intl.DateTimeFormat('es-ES', { weekday: 'short', day: 'numeric', month: 'short' }).format(date);
+  return new Intl.DateTimeFormat('es-ES', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  }).format(date);
 }
 
 type Step = 'procedure' | 'datetime' | 'form' | 'confirmation';
@@ -137,7 +141,11 @@ export default function AppointmentsScreen() {
                     variant="ghost"
                     onPress={() =>
                       setStep((current) =>
-                        current === 'confirmation' ? 'form' : current === 'form' ? 'datetime' : 'procedure',
+                        current === 'confirmation'
+                          ? 'form'
+                          : current === 'form'
+                            ? 'datetime'
+                            : 'procedure',
                       )
                     }
                     style={styles.backButton}
@@ -213,7 +221,11 @@ export default function AppointmentsScreen() {
                 {step === 'form' ? (
                   <View style={styles.stepList}>
                     <ThemedText type="smallBold">Tus datos</ThemedText>
-                    <TextField label="Nombre" value={applicantName} onChangeText={setApplicantName} />
+                    <TextField
+                      label="Nombre"
+                      value={applicantName}
+                      onChangeText={setApplicantName}
+                    />
                     <TextField
                       label="Teléfono o email"
                       value={applicantContact}
@@ -250,7 +262,11 @@ export default function AppointmentsScreen() {
                     <ThemedText type="small" themeColor="textSecondary">
                       {OFFICE_LOCATION}
                     </ThemedText>
-                    <Button title="Confirmar cita" onPress={handleConfirm} style={styles.continueButton} />
+                    <Button
+                      title="Confirmar cita"
+                      onPress={handleConfirm}
+                      style={styles.continueButton}
+                    />
                   </Card>
                 ) : null}
               </View>

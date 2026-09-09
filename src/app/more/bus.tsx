@@ -94,11 +94,7 @@ export default function BusScreen() {
             keyExtractor={(line) => line.id}
             contentContainerStyle={styles.content}
             ListHeaderComponent={
-              <ThemedText
-                type="default"
-                themeColor="textSecondary"
-                style={styles.screenSubtitle}
-              >
+              <ThemedText type="default" themeColor="textSecondary" style={styles.screenSubtitle}>
                 Líneas interurbanas desde Aguilar de la Frontera
               </ThemedText>
             }

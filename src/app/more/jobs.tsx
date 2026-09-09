@@ -55,7 +55,10 @@ function JobOfferCard({
               {offer.company}
             </ThemedText>
           </View>
-          <Badge label={TYPE_LABEL[offer.type]} variant={offer.type === 'council' ? 'primary' : 'neutral'} />
+          <Badge
+            label={TYPE_LABEL[offer.type]}
+            variant={offer.type === 'council' ? 'primary' : 'neutral'}
+          />
         </View>
 
         <View style={styles.cardMeta}>
@@ -171,9 +174,7 @@ export default function JobsScreen() {
                 expanded={expandedId === item.id}
                 applied={appliedIds.has(item.id)}
                 onToggle={() => setExpandedId((current) => (current === item.id ? null : item.id))}
-                onApply={() =>
-                  setAppliedIds((current) => new Set(current).add(item.id))
-                }
+                onApply={() => setAppliedIds((current) => new Set(current).add(item.id))}
               />
             )}
           />

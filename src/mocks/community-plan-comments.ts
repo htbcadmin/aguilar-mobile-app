@@ -10,13 +10,25 @@ export type CommunityPlanComment = {
 export const mockCommunityPlanComments: Record<string, CommunityPlanComment[]> = {
   'plan-1': [
     { id: 'comment-1', author: 'Antonio Gómez', text: '¿Hay que llevar bastones o los prestáis?' },
-    { id: 'comment-2', author: 'Rocío Cabrera', text: 'Yo llevo los míos de sobra, si a alguien le hacen falta.' },
+    {
+      id: 'comment-2',
+      author: 'Rocío Cabrera',
+      text: 'Yo llevo los míos de sobra, si a alguien le hacen falta.',
+    },
   ],
   'plan-2': [
-    { id: 'comment-3', author: 'Lucía Fernández', text: '¿Se puede traer tela propia o la ponéis vosotros?' },
+    {
+      id: 'comment-3',
+      author: 'Lucía Fernández',
+      text: '¿Se puede traer tela propia o la ponéis vosotros?',
+    },
   ],
   'plan-6': [
-    { id: 'comment-4', author: 'Javier Ortega', text: '¿A qué hora abre la zona de avituallamiento?' },
+    {
+      id: 'comment-4',
+      author: 'Javier Ortega',
+      text: '¿A qué hora abre la zona de avituallamiento?',
+    },
     { id: 'comment-5', author: 'Marta Ruiz', text: 'Nos vemos allí, ¡qué ganas!' },
   ],
 };

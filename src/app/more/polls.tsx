@@ -81,7 +81,10 @@ function OptionResultBar({
         <View
           style={[
             styles.resultFill,
-            { width: `${percentage}%`, backgroundColor: isYourVote ? theme.primary : theme.textSecondary },
+            {
+              width: `${percentage}%`,
+              backgroundColor: isYourVote ? theme.primary : theme.textSecondary,
+            },
           ]}
         />
       </View>
@@ -126,10 +129,15 @@ function PollCard({
           <ThemedText type="default" style={styles.question}>
             {poll.question}
           </ThemedText>
-          <Badge label={poll.active ? 'Activa' : 'Cerrada'} variant={poll.active ? 'primary' : 'neutral'} />
+          <Badge
+            label={poll.active ? 'Activa' : 'Cerrada'}
+            variant={poll.active ? 'primary' : 'neutral'}
+          />
         </View>
         <ThemedText type="small" themeColor="textSecondary">
-          {poll.active ? `Cierra el ${formatDate(poll.closingDate)}` : `Cerrada el ${formatDate(poll.closingDate)}`}
+          {poll.active
+            ? `Cierra el ${formatDate(poll.closingDate)}`
+            : `Cerrada el ${formatDate(poll.closingDate)}`}
         </ThemedText>
       </Pressable>
 
