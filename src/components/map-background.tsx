@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { SymbolView } from 'expo-symbols';
+import MapPin from 'lucide-react-native/icons/map-pin';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
 import { Radius } from '@/constants/theme';
@@ -54,10 +54,12 @@ export function MapBackground({
         />
       ))}
       <View style={[StyleSheet.absoluteFill, styles.pin]} pointerEvents="none">
-        <SymbolView
-          name={{ ios: 'mappin', android: 'place', web: 'place' }}
-          tintColor={theme.primary}
-          size={28}
+        <MapPin
+          size={30}
+          color={theme.primary}
+          strokeWidth={2}
+          fill={theme.primary}
+          fillOpacity={0.15}
         />
       </View>
       {children}

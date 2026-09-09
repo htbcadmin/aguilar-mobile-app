@@ -1,10 +1,16 @@
+import Inbox from 'lucide-react-native/icons/inbox';
 import { StyleSheet, View, type ViewProps } from 'react-native';
 
 import { Button } from '@/components/button';
 import { ThemedText } from '@/components/themed-text';
-import { Spacing } from '@/constants/theme';
+import { Radius, Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
+import type { IconComponent } from '@/types/icon';
 
 export type EmptyStateProps = ViewProps & {
+  /** Preferred over `emoji` for new call sites — a `lucide-react-native` icon component. */
+  icon?: IconComponent;
+  /** @deprecated Pass `icon` (a Lucide icon component) instead — kept for existing call sites. */
   emoji?: string;
   title: string;
   description?: string;
@@ -18,7 +24,8 @@ export type EmptyStateProps = ViewProps & {
  * within a real screen's content.
  */
 export function EmptyState({
-  emoji = '🗒️',
+  icon: Icon,
+  emoji,
   title,
   description,
   actionLabel,
@@ -26,9 +33,21 @@ export function EmptyState({
   style,
   ...rest
 }: EmptyStateProps) {
+  const theme = useTheme();
+
   return (
     <View style={[styles.container, style]} {...rest}>
-      <ThemedText style={styles.emoji}>{emoji}</ThemedText>
+      {emoji && !Icon ? (
+        <ThemedText style={styles.emoji}>{emoji}</ThemedText>
+      ) : (
+        <View style={[styles.iconWell, { backgroundColor: theme.backgroundElement }]}>
+          {Icon ? (
+            <Icon size={26} color={theme.textSecondary} strokeWidth={1.75} />
+          ) : (
+            <Inbox size={26} color={theme.textSecondary} strokeWidth={1.75} />
+          )}
+        </View>
+      )}
       <ThemedText type="smallBold" style={styles.title}>
         {title}
       </ThemedText>
@@ -54,6 +73,14 @@ const styles = StyleSheet.create({
   },
   emoji: {
     fontSize: 36,
+    marginBottom: Spacing.one,
+  },
+  iconWell: {
+    width: 64,
+    height: 64,
+    borderRadius: Radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: Spacing.one,
   },
   title: {

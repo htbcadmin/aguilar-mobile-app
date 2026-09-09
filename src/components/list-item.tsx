@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { SymbolView } from 'expo-symbols';
+import ChevronRight from 'lucide-react-native/icons/chevron-right';
 import {
   Pressable,
   StyleSheet,
@@ -51,11 +51,7 @@ export function ListItem({
     trailing !== undefined ? (
       trailing
     ) : onPress ? (
-      <SymbolView
-        name={{ ios: 'chevron.right', android: 'chevron_right', web: 'chevron_right' }}
-        tintColor={theme.textSecondary}
-        size={16}
-      />
+      <ChevronRight size={18} color={theme.textSecondary} strokeWidth={2.25} />
     ) : null;
 
   const content = (
