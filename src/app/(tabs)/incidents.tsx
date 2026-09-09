@@ -1,4 +1,11 @@
 import { useMemo, useState } from 'react';
+import Construction from 'lucide-react-native/icons/construction';
+import Info from 'lucide-react-native/icons/info';
+import ListIcon from 'lucide-react-native/icons/list';
+import MapIcon from 'lucide-react-native/icons/map';
+import SearchX from 'lucide-react-native/icons/search-x';
+import TrafficCone from 'lucide-react-native/icons/traffic-cone';
+import Zap from 'lucide-react-native/icons/zap';
 import { AccessibilityInfo, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -18,16 +25,20 @@ import { useSimulatedLoading } from '@/hooks/use-simulated-loading';
 import { useTheme } from '@/hooks/use-theme';
 import { mockIncidents } from '@/mocks/incidents';
 import type { Incident, IncidentType } from '@/types';
+import type { IconComponent } from '@/types/icon';
 import { formatDateTime } from '@/utils/format-date';
 import { getBoundingBox, projectToPercent } from '@/utils/project-coordinates';
 
 const ALL_TYPES = 'all';
 
-const TYPE_INFO: Record<IncidentType, { label: string; emoji: string; variant: BadgeVariant }> = {
-  roadwork: { label: 'Obra', emoji: '🚧', variant: 'warning' },
-  traffic_closure: { label: 'Corte de tráfico', emoji: '🚦', variant: 'danger' },
-  utility_fault: { label: 'Avería', emoji: '⚠️', variant: 'warning' },
-  other: { label: 'Otro', emoji: 'ℹ️', variant: 'neutral' },
+const TYPE_INFO: Record<
+  IncidentType,
+  { label: string; icon: IconComponent; variant: BadgeVariant }
+> = {
+  roadwork: { label: 'Obra', icon: Construction, variant: 'warning' },
+  traffic_closure: { label: 'Corte de tráfico', icon: TrafficCone, variant: 'danger' },
+  utility_fault: { label: 'Avería', icon: Zap, variant: 'warning' },
+  other: { label: 'Otro', icon: Info, variant: 'neutral' },
 };
 
 const REPORT_TYPE_OPTIONS: IncidentType[] = [
@@ -56,7 +67,7 @@ function IncidentDetails({ incident }: { incident: Incident }) {
           variant={incident.status === 'active' ? 'warning' : 'success'}
         />
       </View>
-      <Badge label={`${typeInfo.emoji} ${typeInfo.label}`} variant={typeInfo.variant} />
+      <Badge label={typeInfo.label} icon={typeInfo.icon} variant={typeInfo.variant} />
       <ThemedText type="default">{incident.description}</ThemedText>
       <ThemedText type="small" themeColor="textSecondary">
         {formatDateTime(incident.date)}
@@ -90,7 +101,11 @@ function ReportIncidentForm({ onDone }: { onDone: () => void }) {
         {REPORT_TYPE_OPTIONS.map((option) => (
           <FilterChip
             key={option}
-            label={`${TYPE_INFO[option].emoji} ${TYPE_INFO[option].label}`}
+            label={TYPE_INFO[option].label}
+            icon={TYPE_INFO[option].icon}
+            variant={
+              TYPE_INFO[option].variant === 'neutral' ? 'primary' : TYPE_INFO[option].variant
+            }
             selected={type === option}
             onPress={() => setType(option)}
           />
@@ -177,12 +192,14 @@ export default function IncidentsScreen() {
                 <View style={styles.chipRow}>
                   <FilterChip
                     label="Mapa"
+                    icon={MapIcon}
                     selected={viewMode === 'map'}
                     onPress={() => setViewMode('map')}
                     accessibilityLabel="Ver como mapa"
                   />
                   <FilterChip
                     label="Lista"
+                    icon={ListIcon}
                     selected={viewMode === 'list'}
                     onPress={() => setViewMode('list')}
                     accessibilityLabel="Ver como lista"
@@ -199,6 +216,12 @@ export default function IncidentsScreen() {
                     <FilterChip
                       key={option}
                       label={TYPE_INFO[option].label}
+                      icon={TYPE_INFO[option].icon}
+                      variant={
+                        TYPE_INFO[option].variant === 'neutral'
+                          ? 'primary'
+                          : TYPE_INFO[option].variant
+                      }
                       selected={typeFilter === option}
                       onPress={() => setTypeFilter(option)}
                     />
@@ -220,6 +243,7 @@ export default function IncidentsScreen() {
                           BOUNDING_BOX,
                         );
                         const typeInfo = TYPE_INFO[incident.type];
+                        const TypeIcon = typeInfo.icon;
                         const isSelected = selectedId === incident.id;
                         return (
                           <Pressable
@@ -249,7 +273,7 @@ export default function IncidentsScreen() {
                               },
                             ]}
                           >
-                            <ThemedText style={styles.markerEmoji}>{typeInfo.emoji}</ThemedText>
+                            <TypeIcon size={14} color={theme.background} strokeWidth={2.5} />
                           </Pressable>
                         );
                       })}
@@ -262,7 +286,7 @@ export default function IncidentsScreen() {
             ListEmptyComponent={
               viewMode === 'list' ? (
                 <EmptyState
-                  emoji="🗺️"
+                  icon={SearchX}
                   title="Sin incidencias para este filtro"
                   description="Prueba a quitar el filtro de tipo."
                 />
@@ -325,9 +349,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // Centers the marker on its (left, top) point — half of Spacing.five.
     transform: [{ translateX: -Spacing.three }, { translateY: -Spacing.three }],
-  },
-  markerEmoji: {
-    fontSize: 14,
   },
   detailCard: {
     gap: Spacing.one,
