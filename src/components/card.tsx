@@ -1,6 +1,9 @@
+import type { ReactNode } from 'react';
 import { Pressable, StyleSheet, View, type ViewProps } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 import { MinTouchTarget, Radius, Spacing } from '@/constants/theme';
+import { usePressScale } from '@/hooks/use-press-scale';
 import { useTheme } from '@/hooks/use-theme';
 
 export type CardProps = ViewProps & {
@@ -22,14 +25,37 @@ export function Card({ style, onPress, accessibilityLabel, children, ...rest }: 
   }
 
   return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel}
-      style={({ pressed }) => [styles.pressableMinSize, pressed && styles.pressed]}
-    >
+    <AnimatedCardPressable onPress={onPress} accessibilityLabel={accessibilityLabel}>
       {content}
-    </Pressable>
+    </AnimatedCardPressable>
+  );
+}
+
+/** Isolates the press-scale hook so plain `Card`s (no `onPress`) skip it entirely. */
+function AnimatedCardPressable({
+  onPress,
+  accessibilityLabel,
+  children,
+}: {
+  onPress: () => void;
+  accessibilityLabel?: string;
+  children: ReactNode;
+}) {
+  const { animatedStyle, onPressIn, onPressOut } = usePressScale(0.98);
+
+  return (
+    <Animated.View style={animatedStyle}>
+      <Pressable
+        onPress={onPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel}
+        style={({ pressed }) => [styles.pressableMinSize, pressed && styles.pressed]}
+      >
+        {children}
+      </Pressable>
+    </Animated.View>
   );
 }
 
