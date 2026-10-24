@@ -1,13 +1,13 @@
 # Reglas de ingeniería — Aguilar de la Frontera App
 
-> Fuente única de verdad para cualquier agente (Claude Code) o persona que contribuya a este repo. `CLAUDE.md` solo importa este archivo — no dupliques reglas en otro sitio.
+> Fuente única de verdad para cualquier agente (Claude Code o Codex) o persona que contribuya a este repo. `CLAUDE.md` solo importa este archivo — no dupliques reglas en otro sitio.
 
 ## 0. Stack y versión (léelo antes de escribir código)
 
 **Expo HA CAMBIADO.** Lee la documentación exacta versionada en https://docs.expo.dev/versions/v57.0.0/ antes de escribir código. No asumas comportamiento de versiones anteriores de Expo, React Native o React.
 
 - Expo SDK 57 · React Native 0.86.3 · React 19.2.3 · TypeScript 6.0.3 (`strict: true`) · Expo Router 57 (file-based routing) · Reanimated 4.5.1 (New Architecture, ya activada por defecto en SDK 57).
-- El plugin oficial `expo@claude-plugins-official` ya está habilitado en `.claude/settings.json`: da Expo Skills + MCP de documentación de Expo/EAS a cualquiera que abra Claude Code en este repo. Úsalo para resolver dudas de API en vez de recordarlas de memoria.
+- El plugin oficial `expo@claude-plugins-official` ya está habilitado en `.claude/settings.json`: da Expo Skills + MCP de documentación de Expo/EAS a cualquiera que abra Claude Code en este repo. En Codex, lo mismo viene del plugin oficial `expo@expo-plugins` (`codex plugin marketplace add expo/skills` + `codex plugin add expo@expo-plugins`). Úsalo para resolver dudas de API en vez de recordarlas de memoria.
 
 ## 1. No te inventes nada
 
@@ -50,7 +50,7 @@ Regla dura, sin excepciones silenciosas:
    - Excepción explícita: cambios pequeños de configuración/documentación que uno de vosotros autorice expresamente pueden ir directos a `main`.
 5. **Antes de abrir el PR:** `npm run lint`, `npm run format` y `npx tsc --noEmit` en verde. Si añades lógica no trivial, valora un test.
 6. **Mueve la issue en Linear** (Backlog → In Progress → In Review → Done) a medida que avanzas, no solo al terminar.
-7. **Atribución de IA:** los commits/PRs generados con el Claude Code CLI de este repo no llevan `Co-Authored-By: Claude` ni el pie "Generated with Claude Code" — está desactivado vía `attribution` en `.claude/settings.json`. (Una sesión alojada por el propio proveedor, p. ej. Claude Code on the web, puede añadir su propio pie de atribución por política de esa plataforma; eso queda fuera del control de este repo.)
+7. **Atribución de IA:** los commits/PRs generados con el Claude Code CLI de este repo no llevan `Co-Authored-By: Claude` ni el pie "Generated with Claude Code" — está desactivado vía `attribution` en `.claude/settings.json`. (Una sesión alojada por el propio proveedor, p. ej. Claude Code on the web, puede añadir su propio pie de atribución por política de esa plataforma; eso queda fuera del control de este repo.) Codex no añade atribución.
 
 ## 4. Convenciones de código
 
@@ -84,7 +84,7 @@ Priorizado según la guía de Callstack para agentes de IA ("React Native Best P
 ## 7. Agentes disponibles en este repo
 
 - **`expo@claude-plugins-official`** (ya habilitado en `.claude/settings.json`): Expo Skills + MCP de documentación Expo/EAS.
-- **`.claude/agents/rn-reviewer.md`**: agente de revisión especializado en este stack (rendimiento, design system, accesibilidad, tipado, cero APIs inventadas). Invócalo antes de abrir cada PR de una issue de Linear.
+- **`.claude/agents/rn-reviewer.md`**: agente de revisión especializado en este stack (rendimiento, design system, accesibilidad, tipado, cero APIs inventadas). Invócalo antes de abrir cada PR de una issue de Linear. En Codex es `rn_reviewer`, definido en `.codex/agents/rn-reviewer.toml`, que se genera a partir del `.md`: edita siempre el `.md`, nunca el `.toml`.
 
 No añadas más agentes o skills salvo que resuelvan un problema concreto y recurrente — cuantos menos, más fácil de mantener el contexto.
 
